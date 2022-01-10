@@ -15,6 +15,7 @@ export const encodings = {
     encodingZRLE: 16,
     encodingTightPNG: -260,
     encodingJPEG: 21,
+    encodingAspeed: 18,
 
     pseudoEncodingQualityLevel9: -23,
     pseudoEncodingQualityLevel0: -32,
@@ -43,6 +44,7 @@ export function encodingName(num) {
         case encodings.encodingZRLE:     return "ZRLE";
         case encodings.encodingTightPNG: return "TightPNG";
         case encodings.encodingJPEG:     return "JPEG";
+        case encodings.encodingAspeed:   return "Aspeed";
         default:                         return "[unknown encoding " + num + "]";
     }
 }
