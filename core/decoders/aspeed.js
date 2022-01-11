@@ -11,7 +11,6 @@ import * as Log from '../util/logging.js';
 import {decode} from "../../vendor/aspeed/lib/decoder.js";
 
 export default class AspeedDecoder {
-    #useWorker;
     constructor() {
         this._len = 0;
         this._sequence = 0;
@@ -19,13 +18,13 @@ export default class AspeedDecoder {
         this._cfg = null;
         this._display = null;
 
-        this.#useWorker = window.Worker;
+        this._useWorker = window.Worker;
 
-        if (this.#useWorker) {
+        if (this._useWorker) {
             this._workerInit();
         }
 
-        Log.initLogging('info');
+        //Log.initLogging('info');
     }
 
     _workerInit() {
@@ -130,7 +129,7 @@ export default class AspeedDecoder {
             return false;
         }
 
-        if (this.#useWorker && this._decodeWorker) {
+        if (this._useWorker && this._decodeWorker) {
             this._display = display;
             try {
                 let copy = data.slice();
