@@ -9,6 +9,7 @@ import Module from './decoder_wasm.js'
 var dec = null;
 var wasm = {mod: null, srcPtr: 0, outPtr: 0, size: 0, outbuf: null};
 var times = [];;
+var old_frame = 0;
 
 Module().then(m => {
     m._init();
@@ -24,7 +25,7 @@ function _fps_cal() {
         times.shift();
     }
     times.push(now);
-    console.log("FPS:", times.length);
+    console.debug("FPS:", times.length);
 }
 
 function _getWasmBuffer(_wasm, size) {
@@ -52,6 +53,11 @@ export function decode(header, inbuf) {
             header.width, header.height, header.mode420,
             header.selector, header.advance_selector);
     }
-    //_fps_cal();
+    console.debug("use %s, ", wasm.mod ? "wasm":"js", header);
+    console.debug("FPS:", times.length);
+    if (old_frame+1 != header.frame)
+        console.warn("discontinue frame count: %d -> %d", old_frame, header.frame);
+    old_frame = header.frame;
+    _fps_cal();
     return (wasm.mod) ? wasm.outbuf : dec.outbuf;
 }
