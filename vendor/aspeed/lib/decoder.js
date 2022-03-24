@@ -4,17 +4,17 @@
  *
  */
 import AspeedJpeg from "./decoder_js.js";
-import Module from './decoder_wasm.js'
+import Module from './decoder_wasm.js';
 
 var dec = null;
 var wasm = {mod: null, srcPtr: 0, outPtr: 0, size: 0, outbuf: null};
-var times = [];;
+var times = [];
 var old_frame = 0;
 
 Module().then(m => {
     m._init();
     wasm.mod = m;
-})
+});
 
 if (wasm.mod == null)
     dec = new AspeedJpeg();
@@ -35,7 +35,7 @@ function _getWasmBuffer(_wasm, size) {
         if (_wasm.outPtr)
             _wasm.mod._free(_wasm.outPtr);
 
-        _wasm.srcPtr = _wasm.mod._malloc(size / 4);
+        _wasm.srcPtr = _wasm.mod._malloc(size * 2);
         _wasm.outPtr = _wasm.mod._malloc(size * 4);
         _wasm.size = size;
         _wasm.outbuf = new Uint8Array(_wasm.mod.HEAPU8.buffer, _wasm.outPtr, size * 4);
