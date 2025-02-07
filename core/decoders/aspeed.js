@@ -18,7 +18,7 @@ export default class AspeedDecoder {
         this._cfg = null;
         this._display = null;
 
-        this._useWorker = window.Worker;
+        this._useWorker = null;
 
         if (this._useWorker) {
             this._workerInit();
